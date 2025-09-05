@@ -1,53 +1,78 @@
 from kivymd.app import MDApp
+from kivymd.uix.screen import Screen
 from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDRectangleFlatButton, MDRaisedButton
-from kivy.uix.boxlayout import BoxLayout
-from kivymd.uix.textfield import MDTextField
 from kivymd.uix.card import MDCard
-from kivymd.uix.button import MDIconButton
+from kivymd.uix.boxlayout import MDBoxLayout
 
 
-
-class MyApp(MDApp):
+class PlannerApp(MDApp):
     def build(self):
-        layout = BoxLayout(orientation = "vertical", 
-                           spacing = 10, 
-                           padding = 20,
-                           )
+        self.theme_cls.primary_palette = "Pink"
+        self.theme_cls.theme_style = "Light"
 
-        layout.add_widget(MDLabel(text = "Hallo!", 
-                                halign = "center",
-                                theme_text_color="Custom",
-                                text_color=(1, 0.5, 1, 1),
-                                font_style="H4"
-                                ))
-        
-        layout.add_widget(MDRaisedButton(text = "Drück mich!", 
-                                        on_release = lambda x: print("click!"),
-                                        pos_hint={"center_x": 0.5, "center_y": 0.5}, 
-                                        theme_text_color="Custom", 
-                                        text_color=(1,0.5, 1, 1)
-                                        ))
-        
-        layout.add_widget(MDTextField(hint_text="Gib hier etwas ein...",
-                                    pos_hint={"center_x": 0.5, "center_y": 0.6},
-                                    size_hint_x=None,
-                                    width=200
-                                    ))
-        
-        layout.add_widget(MDCard(size_hint=(0.6, 0.2),
-                                pos_hint={"center_x": 0.5, "center_y": 0.4},
-                                elevation=8,    # Schatten
-                                radius=[20,],    # abgerundete Ecken
-                                ))
-        
-        layout.add_widget(MDIconButton(icon="heart",    # Emoji/Material-Icon
-                                    pos_hint={"center_x": 0.8, "center_y": 0.8},
-                                    on_release=lambda x: print("Herz gedrückt!"),
-                                    theme_text_color="Custom",
-                                    text_color=(1,0.5, 1, 1)
-                                    ))
+        # Beispiel-Termine (später dynamisch speicherbar)
+        self.termin_liste = [
+            {"titel": "🎀 Zahnarzttermin", "datum": "05.09.2025 - 14:30 Uhr", "countdown": "Noch 3 Tage"},
+            {"titel": "🌸 Treffen mit Anna", "datum": "06.09.2025 - 18:00 Uhr", "countdown": "Noch 4 Tage"},
+            {"titel": "✨ Projekt-Abgabe", "datum": "10.09.2025 - 12:00 Uhr", "countdown": "Noch 8 Tage"},
+            {"titel": " Zertifikat Scrum", "datum": "6.09.2025 - 11:00 Uhr", "countdown": "Noch 1 Tage"},
+        ]
 
-        return layout
+        main_layout = MDBoxLayout(orientation="vertical", spacing=10, padding=10)
 
-MyApp().run()
+        # Überschrift
+        main_layout.add_widget(
+            MDLabel(
+                text="♡ My Planner ♡",
+                halign="center",
+                theme_text_color="Primary",
+                font_style="H4"
+            )
+        )
+
+        # Dynamisch Karten für jeden Termin erstellen
+        for termin in self.termin_liste:
+            card = self.erzeuge_termin_karte(termin)
+            main_layout.add_widget(card)
+
+        # Button zum Hinzufügen neuer Termine
+        main_layout.add_widget(
+            MDRectangleFlatButton(
+                text="➕ Neuen Termin hinzufügen",
+                pos_hint={"center_x": 0.5},
+                on_release=lambda x: print("Neuen Termin hinzufügen gedrückt!")
+            )
+        )
+
+        screen = Screen()
+        screen.add_widget(main_layout)
+        return screen
+
+    def erzeuge_termin_karte(self, termin):
+        """Erzeugt eine MDCard für einen Termin."""
+        card = MDCard(
+            orientation="vertical",
+            size_hint=(1, None),
+            height=180,
+            padding=15,
+            md_bg_color=(1, 0.9, 1, 1),
+            style="elevated"
+        )
+
+        card.add_widget(MDLabel(text=termin["titel"], theme_text_color="Primary", font_style="H6"))
+        card.add_widget(MDLabel(text=f"📅 Datum: {termin['datum']}", theme_text_color="Secondary"))
+        card.add_widget(MDLabel(text=f"⏳ {termin['countdown']}", theme_text_color="Secondary"))
+
+        # Bearbeiten-Button
+        card.add_widget(
+            MDRaisedButton(
+                text="Bearbeiten",
+                pos_hint={"center_x": 0.5},
+                on_release=lambda x: print(f"Bearbeite {termin['titel']}")
+            )
+        )
+        return card
+
+
+PlannerApp().run()

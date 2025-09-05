@@ -4,7 +4,7 @@ Meine erste eigene Android- App mit Python und KivyMD.
 
 ### Features (geplant)
 - Start- Animation beim öffnen der App
-- Termine anlegen, bearbeiten und klöschen
+- Termine anlegen, bearbeiten und löschen
 - Benachrichtigungen senden
 - Anpassbare Farben und Designs
 - Fokus auf einfache Bedienung (kein klassischer Kalender)
@@ -13,6 +13,7 @@ Meine erste eigene Android- App mit Python und KivyMD.
 - Python 3
 - KivyMD
 - Git und GitHub zur Versionskontrolle
+- KI Unterstützung
 
 ### Wo befinde ich mich gerade?
 - Aktuell in meiner "Experimentierphase" (Widgets, Layout testen)
