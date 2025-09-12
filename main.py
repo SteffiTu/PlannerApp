@@ -19,4 +19,3 @@ class MagicalPlannerApp(MDApp):
 
 if __name__ == "__main__":
     MagicalPlannerApp().run()
-
